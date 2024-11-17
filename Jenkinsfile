@@ -82,12 +82,12 @@ pipeline{
                     env.CHANGED_SERVICES.trim().split(" ").each{service ->
                         if(DEPLOYMENT_SERVICES.contains(service)){
                                sh """
-                                kubectl --kubeconfig=${KUBECONFIG} rollout restart deployment ${service}-deployment
-                                kubectl --kubeconfig=${KUBECONFIG} rollout status deployment ${service}-deployment
+                                kubectl --kubeconfig=${KUBE_CONFIG} rollout restart deployment ${service}-deployment
+                                kubectl --kubeconfig=${KUBE_CONFIG} rollout status deployment ${service}-deployment
                             """
                         }else if(ONDEMAND_SERVICES.contains(service)){
                             sh """
-                                kubectl --kubeconfig=${KUBECONFIG} apply -f ${service}/k8s-manifest.yaml
+                                kubectl --kubeconfig=${KUBE_CONFIG} apply -f ${service}/k8s-manifest.yaml
                             """
                         }
                     }   
