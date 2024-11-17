@@ -33,7 +33,7 @@ pipeline{
             steps{
                 script{
                     def changes = sh(
-                        script: "git diff --name only HEAD-1 HEAD"
+                        script: "git diff --name only HEAD-1 HEAD",
                         returnStdout: true
                     ).trim()
 
