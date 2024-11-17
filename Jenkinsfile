@@ -81,7 +81,11 @@ pipeline{
                 script{
                     env.CHANGED_SERVICES.trim().split(" ").each{service ->
                         if(DEPLOYMENT_SERVICES.contains(service)){
-                               sh """
+                               sh """#!/bin/bash
+                               echo "KUBE_CONFIG: ${KUBE_CONFIG}"
+                               echo "Changed Services: ${env.CHANGED_SERVICES}"
+
+
                                 kubectl --kubeconfig=${KUBE_CONFIG} rollout restart deployment ${service}-deployment
                                 kubectl --kubeconfig=${KUBE_CONFIG} rollout status deployment ${service}-deployment
                             """

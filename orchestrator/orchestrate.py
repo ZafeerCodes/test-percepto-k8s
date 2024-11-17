@@ -25,7 +25,7 @@ class Orchestrator:
             print(f"Pod '{pod_name}' exists in namespace '{namespace}'.")
             return True
         except:
-            print(f"Pod '{pod_name}' does not exist in namespace '{namespace}'.")
+            print(f"Pod '{pod_name}' does not exist in namespace'{namespace}'.")
             return False
 
     def create_train_pod(job:TrainConf):
