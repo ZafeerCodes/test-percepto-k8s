@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: qdrant
+spec:
+  selector:
+    matchLabels:
+      app: qdrant
+  template:
+    metadata:
+      labels:
+        app: qdrant
+    spec:
+      hostNetwork: true
+      containers:
+      - name: qdrant
+        image: qdrant/qdrant
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 6333
+        - containerPort: 6334
+        env:
+        - name: QDRANT__SERVICE__GRPC_PORT
+          value: "6334"
+        - name: QDRANT__SERVICE__HTTP_PORT
+          value: "6333"
+        - name: QDRANT__STORAGE__PATH
+          value: "/data"
+        volumeMounts:
+        - mountPath: /qdrant/storage
+          name: qdrant-nfs
+      volumes:
+      - name: qdrant-nfs
+        nfs:
+          server: 192.168.0.56
+          path: /home/zohran-tuf/Desktop/code/percepto/percepto-be/serve/qdrant
+
+

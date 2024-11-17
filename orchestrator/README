@@ -1,0 +1,14 @@
+### does three things
+- Fetches jobs from redis
+- Checks for data path
+- Check if data is structured
+- Starts a job that trains data
+- If trained sends back training completed.
+
+
+config maps
+- batch_size
+- epochs
+- path of data
+- model_files
+- resume 

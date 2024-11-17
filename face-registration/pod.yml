@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: qdrant
+  namespace: default  # Add this line
+  labels:
+    name: qdrant
+spec:
+  containers:
+  - name: qdrant
+    image: qdrant/qdrant
+    env:
+    - name: PYTHONUNBUFFERED
+      value: "1"
+     
+    resources:
+      limits:
+        memory: "512Mi"
+        cpu: "1024m"

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logger
+  template:
+    metadata:
+      labels:
+        app: logger
+    spec:
+      hostNetwork: true
+      serviceAccountName: logger
+      containers:
+      - name: logger
+        image: zafeeruddin/logger
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        

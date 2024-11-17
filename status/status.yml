@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: status
+  labels:
+    name: status
+spec:
+  serviceAccountName: status-service  # ServiceAccount must be in the same namespace
+  restartPolicy: Never
+  containers:
+  - name: status
+    image: zafeeruddin/status
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: status-service
+  namespace: default
+---
+# Changed to ClusterRole to allow cross-namespace access
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: status-role
+rules:
+- apiGroups: [""]
+  resources: ["pods", "pods/log"]
+  verbs: ["create", "watch", "get", "list", "delete"]
+---
+# Changed to ClusterRoleBinding for cross-namespace access
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: status-rolebinding
+subjects:
+- kind: ServiceAccount
+  name: status-service  # Fixed to match the service account name
+  namespace: default
+roleRef:
+  kind: ClusterRole
+  name: status-role
+  apiGroup: rbac.authorization.k8s.io

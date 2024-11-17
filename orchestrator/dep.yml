@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orch
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: orch
+  template:
+    metadata:
+      labels:
+        app: orch
+    spec:
+      hostNetwork: true
+      serviceAccountName: orch-service
+      containers: 
+      - name: orch
+        image: zafeeruddin/orch:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        volumeMounts:
+        - mountPath: /mnt/data
+          name: nfs-storage
+      volumes:
+        - name: nfs-storage
+          nfs:
+            server: 192.168.0.56
+            path: /home/zohran-tuf/Desktop/code/percepto/percepto-be/serve
+            readOnly: false
