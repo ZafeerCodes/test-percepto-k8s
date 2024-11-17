@@ -98,7 +98,7 @@ class Orchestrator:
                 namespace=NameSpaces.TRAINING.value,  # Change this to your namespace if necessary
                 body=pod
                 )
-                print("Pod created. Status='%s'" % api_response.status.phase)
+                print("Pod created Status='%s'" % api_response.status.phase)
     
             except ApiException as e:
                 if e.status == 401:
