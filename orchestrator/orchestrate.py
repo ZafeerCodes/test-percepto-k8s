@@ -1,4 +1,4 @@
-print("inside")
+print("inside again")
 from kubernetes import client,config
 from types_enums import  v1,Topics, ConsumeType,NameSpaces,FaceConf,LogMessage, TrainConf, PodStatusConf,ImageStatusConf
 from confluent_kafka import Consumer
