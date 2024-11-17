@@ -12,7 +12,7 @@ try:
 except:
     config.load_kube_config()
 
-
+print("check.........")
 kafkaInstance = KafkaPipe()
 producer = kafkaInstance.producer
 class Orchestrator:
