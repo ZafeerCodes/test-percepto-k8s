@@ -78,23 +78,26 @@ pipeline{
         
         stage("Deploy changes to k8s"){
             steps{
-                script{
-                    env.CHANGED_SERVICES.trim().split(" ").each{service ->
-                        if(DEPLOYMENT_SERVICES.contains(service)){
+                withCredentials([file(credentialsId: 'kubeconfig', variable: 'KUBECONFIG_FILE')]) {
+                    script{
+                        env.CHANGED_SERVICES.trim().split(" ").each{service ->
+                            if(DEPLOYMENT_SERVICES.contains(service)){
                                sh """#!/bin/bash
-                               echo "KUBE_CONFIG: ${KUBE_CONFIG}"
-                               echo "Changed Services: ${env.CHANGED_SERVICES}"
+                                set -e
+                                echo "Using kubeconfig from: $KUBECONFIG_FILE"
+                                echo "Changed Services: ${env.CHANGED_SERVICES}"
 
-
-                                kubectl --kubeconfig=${KUBE_CONFIG} rollout restart deployment ${service}-deployment
-                                kubectl --kubeconfig=${KUBE_CONFIG} rollout status deployment ${service}-deployment
+                                kubectl --kubeconfig=$KUBECONFIG_FILE rollout restart deployment ${service}-deployment
+                                kubectl --kubeconfig=$KUBECONFIG_FILE rollout status deployment ${service}-deployment
                             """
                         }else if(ONDEMAND_SERVICES.contains(service)){
-                            sh """
-                                kubectl --kubeconfig=${KUBE_CONFIG} apply -f ${service}/k8s-manifest.yaml
+                              sh """#!/bin/bash
+                                set -e
+                                kubectl --kubeconfig=$KUBECONFIG_FILE apply -f ${service}/k8s-manifest.yaml
                             """
                         }
                     }   
+                }
                 }
             }
         }
