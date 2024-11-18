@@ -3,7 +3,7 @@ def DOCKER_USER_NAME = "zafeeruddin"
 def DOCKER_USER_PASSWORD = credentials("docker-hub-credentials")
 def KUBE_CONFIG = credentials("kubeconfig")
 def GITHUB_REPO = credentials("https://github.com/masterworks-engineering/k8s-percepto")
-def DEPLOYMENT_SERVICES = ['orchestrator', 'status', 'logger', 'qdrant']
+def DEPLOYMENT_SERVICES = ['orch', 'status', 'logger', 'qdrant']
 def ONDEMAND_SERVICES = ['training', 'face-registrations']
 
 
@@ -86,9 +86,9 @@ pipeline{
                                 set -e
                                 echo "Using kubeconfig from: $KUBECONFIG_FILE"
                                 echo "Changed Services: ${env.CHANGED_SERVICES}"
-
-                                kubectl --kubeconfig=$KUBECONFIG_FILE rollout restart deployment ${service}-deployment
-                                kubectl --kubeconfig=$KUBECONFIG_FILE rollout status deployment ${service}-deployment
+                                echo "Service is :${service}"
+                                kubectl --kubeconfig=$KUBECONFIG_FILE rollout restart deployment ${service}
+                                kubectl --kubeconfig=$KUBECONFIG_FILE rollout status deployment ${service}
                             """
                         }else if(ONDEMAND_SERVICES.contains(service)){
                               sh """#!/bin/bash

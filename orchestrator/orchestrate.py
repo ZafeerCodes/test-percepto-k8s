@@ -22,7 +22,7 @@ class Orchestrator:
         namespace = NameSpaces.TRAINING.value
         try:
             pod = v1.read_namespaced_pod(name=pod_name, namespace=NameSpaces.TRAINING.value)
-            print(f"Pod '{pod_name}' exists in namespace '{namespace}'.")
+            print(f"Pod '{pod_name}' exists inside namespace '{namespace}'.")
             return True
         except:
             print(f"Pod '{pod_name}' does not exist in namespace'{namespace}'.")
