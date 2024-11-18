@@ -41,7 +41,7 @@ class Logger:
                 self.producer.produce(Topics.JOBS.value, key=key, value=json.dumps(message))
                 self.producer.flush()
         except Exception as e:
-            print(f"Error streaming logs for pod {pod_name}: {e}")
+            print(f"Error streaming logs for the  pod {pod_name}: {e}")
 
 
     def list_pods(self,namespace:str):

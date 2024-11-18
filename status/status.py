@@ -29,7 +29,7 @@ class KafkaPipe:
             for pod in pods.items:
                 if pod.status.phase == PodStatus.COMPLETED.value or  pod.status.phase==PodStatus.SUCCEEDED.value:
                     self.v1.delete_namespaced_pod(name=pod.metadata.name,namespace=NameSpaces.FACEREGISTRATIONS.value)
-                    print("deleted pod inside fr ",pod.metatdata.name)
+                    print("deleted pod inside  ",pod.metatdata.name)
         except Exception as e:
             print("Error deleting pod in fr ",e)
 
